@@ -188,25 +188,19 @@ owner_mt(const struct sk_buff *skb, struct xt_action_param *par)
 	if (filp == NULL) {
 		read_unlock_bh(&sk->sk_callback_lock);
 		return ((info->match ^ info->invert) &
-<<<<<<< HEAD
 				(XT_OWNER_UID | XT_OWNER_GID)) == 0;
-=======
-		       (XT_OWNER_UID | XT_OWNER_GID)) == 0;
+		       (XT_OWNER_UID | XT_OWNER_GID) == 0;
 	}
->>>>>>> 6b5bf47c023b (netfilter: xt_owner: Fix for unsafe access of sk->sk_socket)
 
 	if (info->match & XT_OWNER_UID) {
 		kuid_t uid_min = make_kuid(net->user_ns, info->uid_min);
 		kuid_t uid_max = make_kuid(net->user_ns, info->uid_max);
 		if ((uid_gte(filp->f_cred->fsuid, uid_min) &&
-<<<<<<< HEAD
 			uid_lte(filp->f_cred->fsuid, uid_max)) ^
 			!(info->invert & XT_OWNER_UID))
-=======
-		     uid_lte(filp->f_cred->fsuid, uid_max)) ^
-		    !(info->invert & XT_OWNER_UID)) {
+		     uid_lte(filp->f_cred->fsuid, uid_max) ^
+		    !(info->invert & XT_OWNER_UID) {
 			read_unlock_bh(&sk->sk_callback_lock);
->>>>>>> 6b5bf47c023b (netfilter: xt_owner: Fix for unsafe access of sk->sk_socket)
 			return false;
 		}
 	}
